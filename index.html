@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trợ lý AI: Y học cổ truyền</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS giữ nguyên như trước */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #0d8b68;
+            --primary-light: #14a37f;
+            --primary-dark: #0a6e52;
+            --secondary: #ff9d00;
+            --secondary-light: #ffb740;
+            --accent: #8b4513;
+            --light: #f8fdfb;
+            --dark: #1a3c32;
+            --text: #2d4a43;
+            --text-light: #5a7a72;
+            --shadow: 0 15px 40px rgba(13, 139, 104, 0.15);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            --gradient-bg: linear-gradient(135deg, #e8f5f1 0%, #f0f9f6 50%, #e8f5f1 100%);
+        }
+        
+        body {
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            color: var(--text);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Background image */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://img.lovepik.com/photo/40259/5029.jpg_wh300.jpg') center/cover;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 100%;
+            height: 100vh;
+            background-color: white;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Mobile-first sidebar */
+        .sidebar {
+            width: 100%;
+            background: var(--gradient);
+            color: white;
+            padding: 15px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            height: 80px;
+            justify-content: space-between;
+        }
+        
+        .sidebar::before {
+            content: "";
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .sidebar::after {
+            content: "";
+            position: absolute;
+            bottom: -100px;
+            left: -50px;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            z-index: 1;
+        }
+        
+        .yin-yang {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Yin_yang.svg/250px-Yin_yang.svg.png') center/cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .avatar-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .user-info {
+            display: none;
+        }
+        
+        .rating {
+            display: none;
+        }
+        
+        .sidebar-footer {
+            display: none;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--light);
+            overflow: hidden;
+        }
+        
+        .header {
+            padding: 15px;
+            background: white;
+            border-bottom: 1px solid rgba(13, 139, 104, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header h1 i {
+            margin-right: 8px;
+            color: var(--secondary);
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            background: rgba(13, 139, 104, 0.08);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 8px rgba(13, 139, 104, 0.5);
+        }
+        
+        @keyframes pulse {
+            0% { 
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(13, 139, 104, 0.7);
+            }
+            70% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(13, 139, 104, 0);
+            }
+            100% { 
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(13, 139, 104, 0);
+            }
+        }
+        
+        .chat-container {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: var(--light);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 85%;
+            line-height: 1.5;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.4s ease;
+            font-size: 14px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background: var(--gradient);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background: white;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+            border: 1px solid rgba(13, 139, 104, 0.1);
+        }
+        
+        .message-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .user-message .message-header {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .ai-message .message-header {
+            color: var(--primary);
+        }
+        
+        .message-header i {
+            margin-right: 6px;
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        
+        .quick-action {
+            background: white;
+            border: 1px solid rgba(13, 139, 104, 0.15);
+            border-radius: 15px;
+            padding: 8px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            color: var(--text);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+        }
+        
+        .quick-action:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(13, 139, 104, 0.2);
+        }
+        
+        .quick-action i {
+            margin-right: 6px;
+            color: inherit;
+        }
+        
+        .input-container {
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid rgba(13, 139, 104, 0.1);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.03);
+        }
+        
+        .input-container input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid rgba(13, 139, 104, 0.2);
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: var(--light);
+            color: var(--text);
+        }
+        
+        .input-container input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(13, 139, 104, 0.1);
+            background: white;
+        }
+        
+        .input-container input::placeholder {
+            color: var(--text-light);
+        }
+        
+        .input-actions {
+            display: flex;
+            margin-left: 10px;
+        }
+        
+        .action-btn {
+            background: var(--gradient);
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            margin-left: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(13, 139, 104, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(13, 139, 104, 0.4);
+        }
+        
+        .typing-indicator {
+            display: inline-flex;
+            padding: 12px 15px;
+            background-color: white;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 15px;
+            align-items: center;
+            border: 1px solid rgba(13, 139, 104, 0.1);
+            max-width: 100px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+        }
+        
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 3px;
+            animation: bounce 1.3s linear infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes bounce {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .welcome-section {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(13, 139, 104, 0.1);
+        }
+        
+        .welcome-section h2 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .welcome-section p {
+            color: var(--text-light);
+            line-height: 1.5;
+            font-size: 13px;
+        }
+        
+        /* Snow effect */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #e8f5f1;
+            font-size: 1em;
+            opacity: 0.7;
+            animation: snowfall linear infinite;
+        }
+        
+        @keyframes snowfall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        /* Custom scrollbar */
+        .chat-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .chat-container::-webkit-scrollbar-track {
+            background: rgba(13, 139, 104, 0.05);
+            border-radius: 10px;
+        }
+        
+        .chat-container::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Thêm style cho thông tin chuyên sâu */
+        .expert-info {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .expert-info h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .expert-info ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .expert-info li {
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        
+        .warning {
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff0000;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+        
+        /* Phân loại thông tin */
+        .info-category {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .info-category h5 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-category h5 i {
+            margin-right: 5px;
+        }
+        
+        .category-benh-hoc {
+            border-left: 3px solid #e74c3c;
+        }
+        
+        .category-dieu-tri {
+            border-left: 3px solid #3498db;
+        }
+        
+        .category-huyet-dao {
+            border-left: 3px solid #2ecc71;
+        }
+        
+        .category-duong-sinh {
+            border-left: 3px solid #f39c12;
+        }
+        
+        .category-duoc-lieu {
+            border-left: 3px solid #9b59b6;
+        }
+        
+        .category-bai-thuoc {
+            border-left: 3px solid #1abc9c;
+        }
+        
+        .category-cham-cuu {
+            border-left: 3px solid #e67e22;
+        }
+        
+        .category-chan-doan {
+            border-left: 3px solid #34495e;
+        }
+        
+        .category-triet-ly {
+            border-left: 3px solid #7f8c8d;
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1100px;
+                height: 90vh;
+                border-radius: 25px;
+                box-shadow: var(--shadow);
+                flex-direction: row;
+            }
+            
+            .container::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 5px;
+                background: var(--gradient);
+            }
+            
+            .sidebar {
+                width: 280px;
+                padding: 30px 20px;
+                flex-direction: column;
+                height: auto;
+                justify-content: flex-start;
+            }
+            
+            .logo {
+                margin-bottom: 35px;
+            }
+            
+            .yin-yang {
+                width: 55px;
+                height: 55px;
+                margin-right: 15px;
+            }
+            
+            .logo-text {
+                font-size: 22px;
+            }
+            
+            .avatar-container {
+                width: 160px;
+                height: 160px;
+                margin: 0 auto 30px;
+                padding: 6px;
+            }
+            
+            .user-info {
+                display: block;
+                text-align: center;
+                margin-bottom: 30px;
+                z-index: 1;
+            }
+            
+            .user-info h2 {
+                font-size: 24px;
+                margin-bottom: 8px;
+                font-weight: 700;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            
+            .user-info p {
+                font-size: 15px;
+                opacity: 0.9;
+            }
+            
+            .rating {
+                display: flex;
+                justify-content: center;
+                margin: 15px 0;
+            }
+            
+            .rating i {
+                color: var(--secondary);
+                margin: 0 2px;
+                font-size: 18px;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            }
+            
+            .sidebar-footer {
+                display: block;
+                margin-top: auto;
+                text-align: center;
+                font-size: 14px;
+                opacity: 0.8;
+                z-index: 1;
+            }
+            
+            .header {
+                padding: 25px 35px;
+            }
+            
+            .header h1 {
+                font-size: 26px;
+            }
+            
+            .header h1 i {
+                margin-right: 12px;
+            }
+            
+            .status {
+                padding: 10px 18px;
+                border-radius: 20px;
+                font-size: 14px;
+            }
+            
+            .status-dot {
+                width: 12px;
+                height: 12px;
+                margin-right: 10px;
+            }
+            
+            .chat-container {
+                padding: 30px 35px;
+            }
+            
+            .message {
+                margin-bottom: 25px;
+                padding: 18px 22px;
+                border-radius: 20px;
+                max-width: 80%;
+                line-height: 1.6;
+                font-size: 16px;
+            }
+            
+            .quick-actions {
+                gap: 12px;
+                margin-top: 25px;
+            }
+            
+            .quick-action {
+                border-radius: 20px;
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+            
+            .quick-action i {
+                margin-right: 8px;
+            }
+            
+            .input-container {
+                padding: 25px 35px;
+            }
+            
+            .input-container input {
+                padding: 16px 22px;
+                border-radius: 25px;
+                font-size: 16px;
+            }
+            
+            .input-actions {
+                margin-left: 15px;
+            }
+            
+            .action-btn {
+                width: 50px;
+                height: 50px;
+                margin-left: 12px;
+            }
+            
+            .typing-indicator {
+                padding: 18px 22px;
+                border-radius: 20px;
+                margin-bottom: 25px;
+                max-width: 130px;
+            }
+            
+            .typing-indicator span {
+                height: 12px;
+                width: 12px;
+                margin: 0 4px;
+            }
+            
+            .welcome-section {
+                padding: 25px;
+                border-radius: 18px;
+                margin-bottom: 25px;
+            }
+            
+            .welcome-section h2 {
+                margin-bottom: 12px;
+                font-size: 22px;
+            }
+            
+            .welcome-section p {
+                line-height: 1.6;
+                font-size: 15px;
+            }
+        }
+        
+        /* For very large screens */
+        @media (min-width: 1600px) {
+            .container {
+                max-width: 1400px;
+                height: 85vh;
+            }
+            
+            .sidebar {
+                width: 320px;
+            }
+            
+            .chat-container {
+                padding: 40px 45px;
+            }
+            
+            .header {
+                padding: 30px 45px;
+            }
+            
+            .input-container {
+                padding: 30px 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Snow effect -->
+    <div class="snow-container" id="snowContainer"></div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <div class="yin-yang"></div>
+                <div class="logo-text">Y học cổ truyền</div>
+            </div>
+            
+            <div class="avatar-container">
+                <div class="avatar">
+                    <img src="https://img.freepik.com/free-photo/korean-doctor-or-medical-staff-wearing-white-coat-and-stethoscope-standing-in-front-of-hospital_148840-13335.jpg" alt="Bác sĩ Hàn Quốc" class="avatar-img">
+                </div>
+            </div>
+            
+            <div class="user-info">
+                <h2>Bác sĩ AI</h2>
+                <p>Chuyên gia tư vấn Y học cổ truyền</p>
+                
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <p>Trợ lý AI thông minh Y học cổ truyền</p>
+                <p>BSCKI. Nguyễn Văn Dũng</p>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="header">
+                <h1><i class="fas fa-robot"></i> Trợ lý AI</h1>
+                <div class="status">
+                    <div class="status-dot"></div>
+                    <span>Online</span>
+                </div>
+            </div>
+            
+            <div class="chat-container" id="chatContainer">
+                <div class="welcome-section">
+                    <h2>Chào mừng đến với Trợ lý AI Y học cổ truyền</h2>
+                    <p>Tôi có thể tư vấn về thảo dược, huyệt vị, bài thuốc, bắt mạch và các phương pháp dưỡng sinh. Hãy cho tôi biết vấn đề sức khỏe của bạn!</p>
+                </div>
+                
+                <div class="message ai-message">
+                    <div class="message-header">
+                        <i class="fas fa-robot"></i> Bác sĩ AI
+                    </div>
+                    Xin chào bạn! Tôi là trợ lý AI chuyên về Y học cổ truyền. Tôi có thể giúp bạn tìm hiểu về thảo dược, huyệt vị, bài thuốc, bắt mạch và các phương pháp dưỡng sinh. Hãy chia sẻ với tôi về tình trạng sức khỏe của bạn nhé!
+                </div>
+                
+                <div class="quick-actions">
+                    <div class="quick-action" data-question="Các huyệt trị đau đầu">
+                        <i class="fas fa-crosshairs"></i> Huyệt trị đau đầu
+                    </div>
+                    <div class="quick-action" data-question="Bài thuốc trị ho">
+                        <i class="fas fa-book-medical"></i> Bài thuốc trị ho
+                    </div>
+                    <div class="quick-action" data-question="Thảo dược giải độc">
+                        <i class="fas fa-leaf"></i> Thảo dược giải độc
+                    </div>
+                    <div class="quick-action" data-question="Mạch phù">
+                        <i class="fas fa-heartbeat"></i> Mạch phù
+                    </div>
+                    <div class="quick-action" data-question="Phương pháp dưỡng sinh">
+                        <i class="fas fa-spa"></i> Phương pháp dưỡng sinh
+                    </div>
+                    <div class="quick-action" data-question="Cảm mạo">
+                        <i class="fa-solid fa-head-side-cough"></i> Cảm mạo
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <input type="text" id="userInput" placeholder="Nhập câu hỏi về y học cổ truyền...">
+                <div class="input-actions">
+                    <button class="action-btn" id="sendButton">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chatContainer');
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const quickActions = document.querySelectorAll('.quick-action');
+            
+            // Tạo hiệu ứng tuyết rơi
+            function createSnow() {
+                const snowContainer = document.getElementById('snowContainer');
+                const snowflakesCount = 50;
+                
+                for (let i = 0; i < snowflakesCount; i++) {
+                    const snowflake = document.createElement('div');
+                    snowflake.classList.add('snowflake');
+                    snowflake.innerHTML = '❄';
+                    
+                    // Random properties
+                    const size = Math.random() * 1.5 + 0.5;
+                    const left = Math.random() * 100;
+                    const animationDuration = Math.random() * 10 + 10;
+                    const animationDelay = Math.random() * 10;
+                    
+                    snowflake.style.left = left + 'vw';
+                    snowflake.style.fontSize = size + 'em';
+                    snowflake.style.animationDuration = animationDuration + 's';
+                    snowflake.style.animationDelay = animationDelay + 's';
+                    
+                    snowContainer.appendChild(snowflake);
+                }
+            }
+            
+            // KIẾN THỨC CHUYÊN SÂU VỀ Y HỌC CỔ TRUYỀN - ĐÃ CẢI THIỆN
+            const knowledgeBase = {
+                "huyệt": {
+                    "đau đầu": {
+                        content: "Các huyệt trị đau đầu: Bách Hội (đỉnh đầu), Phong Trì (sau gáy), Hợp Cốc (mu bàn tay). Bạn có thể day ấn mỗi huyệt khoảng 2-3 phút, thực hiện ngày 2-3 lần sẽ thấy dễ chịu hơn.",
+                        category: "huyet-dao"
+                    },
+                    "mất ngủ": {
+                        content: "Huyệt trị mất ngủ: Thần Môn (cổ tay), Tam Âm Giao (chân), Nội Quan (cẳng tay). Kết hợp ngâm chân nước ấm trước khi ngủ sẽ giúp bạn ngủ ngon hơn.",
+                        category: "huyet-dao"
+                    },
+                    "tiêu hóa": {
+                        content: "Huyệt hỗ trợ tiêu hóa: Túc Tam Lý (dưới gối), Trung Quản (bụng trên), Thiên Xu (quanh rốn). Xoa bụng theo chiều kim đồng hồ cũng rất hiệu quả.",
+                        category: "huyet-dao"
+                    },
+                    "cảm mạo": {
+                        content: "Huyệt trị cảm: Đại Chùy (cổ), Phong Môn (lưng), Nghinh Hương (mũi). Kết hợp xông hơi thảo dược sẽ giúp bạn nhanh khỏi cảm hơn.",
+                        category: "huyet-dao"
+                    },
+                    "đau lưng": {
+                        content: "Huyệt trị đau lưng: Thận Du (lưng), Mệnh Môn (thắt lưng), Uỷ Trung (khoeo chân). Kết hợp xoa bóp vùng lưng nhẹ nhàng.",
+                        category: "huyet-dao"
+                    },
+                    "viêm xoang": {
+                        content: "Huyệt trị viêm xoang: Nghinh Hương (cạnh mũi), Ấn Đường (giữa hai lông mày), Hợp Cốc (mu bàn tay). Day ấn nhẹ nhàng mỗi huyệt 2-3 phút mỗi ngày.",
+                        category: "huyet-dao"
+                    },
+                    "cao huyết áp": {
+                        content: "Huyệt hạ áp: Phong Trì (sau gáy), Khúc Trì (khuỷu tay), Thái Xung (mu bàn chân). Day ấn mỗi huyệt 3-5 phút, ngày 2 lần sẽ hỗ trợ ổn định huyết áp.",
+                        category: "huyet-dao"
+                    },
+                    "đau bụng kinh": {
+                        content: "Huyệt trị đau bụng kinh: Quan Nguyên (dưới rốn), Tam Âm Giao (chân), Huyết Hải (đùi). Xoa nóng vùng bụng dưới kết hợp day huyệt sẽ giảm đau hiệu quả.",
+                        category: "huyet-dao"
+                    },
+                    "say tàu xe": {
+                        content: "Huyệt chống say tàu xe: Nội Quan (cổ tay), Thần Môn (cổ tay), Ấn Đường (giữa lông mày). Day ấn trước khi di chuyển 15 phút sẽ giúp bạn đỡ say hơn.",
+                        category: "huyet-dao"
+                    },
+                    "căng thẳng": {
+                        content: "Huyệt giảm căng thẳng: Bách Hội (đỉnh đầu), Thái Dương (thái dương), Thần Môn (cổ tay). Kết hợp hít thở sâu khi day huyệt sẽ thư giãn tốt hơn.",
+                        category: "huyet-dao"
+                    }
+                },
+                "thảo dược": {
+                    "giải độc": {
+                        content: "Các thảo dược giải độc: Cam thảo, Kim ngân hoa, Bồ công anh, Cỏ nhọ nồi. Bạn có thể sắc uống hoặc hãm trà đều tốt.",
+                        category: "duoc-lieu"
+                    },
+                    "trị ho": {
+                        content: "Bài thuốc trị ho: Tía tô, lá hẹ, gừng tươi, mật ong. Hấp cách thủy hoặc sắc uống sẽ giúp giảm ho hiệu quả.",
+                        category: "duoc-lieu"
+                    },
+                    "tiêu hóa": {
+                        content: "Thảo dược hỗ trợ tiêu hóa: Nghệ, gừng, bạc hà, hoắc hương. Dùng tươi hoặc khô hãm trà đều rất tốt cho hệ tiêu hóa.",
+                        category: "duoc-lieu"
+                    },
+                    "an thần": {
+                        content: "Thảo dược an thần: Tâm sen, lá vông, củ bình vôi, lạc tiên. Hãm trà uống buổi tối sẽ giúp bạn ngủ ngon hơn.",
+                        category: "duoc-lieu"
+                    },
+                    "bổ khí huyết": {
+                        content: "Thảo dược bổ khí huyết: Đương quy, hoàng kỳ, thục địa, kỷ tử. Sắc uống hoặc ngâm rượu đều có tác dụng bổ khí huyết.",
+                        category: "duoc-lieu"
+                    },
+                    "hạ sốt": {
+                        content: "Thảo dược hạ sốt: Cúc hoa, bạc hà, kim ngân, kinh giới. Sắc uống khi còn ấm, có tác dụng giải biểu hạ sốt rất tốt.",
+                        category: "duoc-lieu"
+                    },
+                    "chống viêm": {
+                        content: "Thảo dược chống viêm: Nghệ vàng, hoàng cầm, xuyên tâm liên, sài đất. Dùng dưới dạng thuốc sắc hoặc cao đều hiệu quả.",
+                        category: "duoc-lieu"
+                    },
+                    "lợi tiểu": {
+                        content: "Thảo dược lợi tiểu: Mã đề, râu ngô, rễ cỏ tranh, kim tiền thảo. Sắc uống thay nước hàng ngày sẽ hỗ trợ lợi tiểu.",
+                        category: "duoc-lieu"
+                    },
+                    "bổ thận": {
+                        content: "Thảo dược bổ thận: Ba kích, dâm dương hoắc, đỗ trọng, tục đoàn. Ngâm rượu hoặc sắc uống đều tốt cho thận.",
+                        category: "duoc-lieu"
+                    },
+                    "giảm đau": {
+                        content: "Thảo dược giảm đau: Lá lốt, ngải cứu, thiên niên kiện, địa liền. Dùng tươi giã đắp hoặc sắc uống đều có tác dụng giảm đau.",
+                        category: "duoc-lieu"
+                    },
+                    "tâm sen": {
+                        content: "Tâm sen (Liên tâm) có vị đắng, tính hàn. Quy kinh: Tâm, Thận. Công dụng: Thanh tâm, an thần, chữa mất ngủ, hồi hộp, huyết áp cao. Lưu ý: Người thể trạng hư hàn không nên dùng lâu.",
+                        category: "duoc-lieu"
+                    },
+                    "củ mài": {
+                        content: "Củ mài (Hoài sơn) có vị ngọt, tính bình. Quy kinh: Tỳ, Phế, Thận. Công dụng: Bổ tỳ vị, ích phế thận, cố tinh. Dùng tốt cho người gầy yếu, tiêu chảy.",
+                        category: "duoc-lieu"
+                    },
+                    "nhân sâm": {
+                        content: "Nhân sâm có vị ngọt, hơi đắng, tính hơi ấm. Quy kinh: Tỳ, Phế, Tâm. Công dụng: Đại bổ nguyên khí, ích huyết, sinh tân. Lưu ý: Người thể thực nhiệt, huyết áp cao không nên dùng.",
+                        category: "duoc-lieu"
+                    },
+                    "hoàng kỳ": {
+                        content: "Hoàng kỳ có vị ngọt, tính ấm. Quy kinh: Tỳ, Phế. Công dụng: Bổ khí thăng dương, cố biểu chỉ hãn, lợi thủy tiêu thũng.",
+                        category: "duoc-lieu"
+                    }
+                },
+                "bài thuốc": {
+                    "trị ho": {
+                        content: "Bài 'Xuyên bối tỳ ba cao': Xuyên bối mẫu, tỳ bà diệp, tang bạch bì, cam thảo. Sắc uống ngày 1 thang sẽ giúp giảm ho hiệu quả.",
+                        category: "bai-thuoc"
+                    },
+                    "cảm mạo": {
+                        content: "Bài 'Thông tuyến giải biểu thang': Kim ngân hoa, liên kiều, bạc hà, kinh giới. Sắc uống khi còn ấm sẽ giúp giải cảm nhanh chóng.",
+                        category: "bai-thuoc"
+                    },
+                    "tiêu hóa": {
+                        content: "Bài 'Hương sa lục quân tử': Đảng sâm, bạch truật, phục linh, trần bì, sa nhân, mộc hương. Có tác dụng bổ tỳ kiện vị rất tốt.",
+                        category: "bai-thuoc"
+                    },
+                    "mất ngủ": {
+                        content: "Bài 'Thiên ma câu đằng ẩm': Thiên ma, câu đằng, chi tử, hoàng cầm. Giúp an thần, dễ ngủ, cải thiện chất lượng giấc ngủ.",
+                        category: "bai-thuoc"
+                    },
+                    "bổ huyết": {
+                        content: "Bài 'Tứ vật thang': Đương quy, xuyên khung, bạch thược, thục địa. Có tác dụng bổ huyết, điều kinh hiệu quả.",
+                        category: "bai-thuoc"
+                    },
+                    "viêm họng": {
+                        content: "Bài 'Thanh yết lợi cách thang': Cát cánh, cam thảo, huyền sâm, mạch môn. Sắc uống ngày 1 thang sẽ giúp giảm viêm họng.",
+                        category: "bai-thuoc"
+                    },
+                    "viêm khớp": {
+                        content: "Bài 'Độc hoạt tang ký sinh': Độc hoạt, tang ký sinh, phòng phong, tế tân. Có tác dụng trừ phong thấp, giảm đau khớp hiệu quả.",
+                        category: "bai-thuoc"
+                    },
+                    "cao huyết áp": {
+                        content: "Bài 'Thiên ma câu đằng ẩm': Thiên ma, câu đằng, thạch quyết minh, hoàng cầm. Có tác dụng bình can tiềm dương, hỗ trợ ổn định huyết áp.",
+                        category: "bai-thuoc"
+                    },
+                    "tiểu đường": {
+                        content: "Bài 'Lục vị địa hoàng': Thục địa, sơn thù, hoài sơn, trạch tả. Có tác dụng tư âm bổ thận, hỗ trợ điều trị tiểu đường.",
+                        category: "bai-thuoc"
+                    },
+                    "gan nhiễm mỡ": {
+                        content: "Bài 'Sài hồ sơ can tán': Sài hồ, bạch thược, chỉ xác, cam thảo. Có tác dụng sơ can giải uất, kiện tỳ, hỗ trợ điều trị gan nhiễm mỡ.",
+                        category: "bai-thuoc"
+                    }
+                },
+                "mạch": {
+                    "phù": {
+                        content: "Mạch Phù (nổi): Thường gặp ở bệnh ngoại cảm, biểu chứng. Ấn nhẹ đã thấy, ấn mạnh mất. Đây là mạch của bệnh còn ở phần ngoài cơ thể.",
+                        category: "chan-doan"
+                    },
+                    "trầm": {
+                        content: "Mạch Trầm (chìm): Thường gặp ở bệnh nội thương, lý chứng. Ấn nhẹ không thấy, ấn mạnh mới rõ. Đây là mạch của bệnh đã vào sâu bên trong.",
+                        category: "chan-doan"
+                    },
+                    "hoạt": {
+                        content: "Mạch Hoạt (trơn): Như hạt đậu lăn trên khay, thường gặp ở đờm thấp, thai nghén. Mạch này thường biểu hiện sự dư thừa đờm thấp trong cơ thể.",
+                        category: "chan-doan"
+                    },
+                    "sác": {
+                        content: "Mạch Sác (nhanh): Trên 5 nhịp/1 hơi thở, thường gặp ở chứng nhiệt. Mạch này phản ánh tình trạng nhiệt thịnh trong cơ thể.",
+                        category: "chan-doan"
+                    },
+                    "trì": {
+                        content: "Mạch Trì (chậm): Dưới 4 nhịp/1 hơi thở, thường gặp ở chứng hàn. Mạch này thường gặp ở người có thể trạng hàn.",
+                        category: "chan-doan"
+                    },
+                    "khẩn": {
+                        content: "Mạch Khẩn (căng): Như sợi dây đàn căng, thường gặp ở chứng hàn, đau. Mạch này thường đi kèm với các chứng đau do hàn.",
+                        category: "chan-doan"
+                    },
+                    "hoãn": {
+                        content: "Mạch Hoãn (chậm vừa): 4 nhịp/1 hơi thở, thường gặp ở chứng hư hàn. Đây là mạch bình thường hoặc biểu hiện của hư hàn.",
+                        category: "chan-doan"
+                    },
+                    "tế": {
+                        content: "Mạch Tế (nhỏ): Như sợi chỉ, khó bắt, thường gặp ở chứng hư. Mạch này phản ánh tình trạng khí huyết không đầy đủ.",
+                        category: "chan-doan"
+                    },
+                    "huyền": {
+                        content: "Mạch Huyền (căng thẳng): Như dây đàn, thường gặp ở can khí uất kết. Mạch này thường gặp ở người hay căng thẳng, stress.",
+                        category: "chan-doan"
+                    },
+                    "nhược": {
+                        content: "Mạch Nhược (yếu): Ấn mạnh mới thấy, thường gặp ở chứng khí huyết hư. Mạch này phản ánh tình trạng suy nhược cơ thể.",
+                        category: "chan-doan"
+                    }
+                },
+                "chẩn đoán": {
+                    "phong hàn": {
+                        content: "Triệu chứng Phong hàn: Đau đầu, sợ gió, không mồ hôi, rêu lưỡi trắng mỏng. Điều trị: Giải biểu bằng cháo hành tía tô hoặc trà gừng ấm sẽ rất hiệu quả.",
+                        category: "benh-hoc"
+                    },
+                    "phế âm hư": {
+                        content: "Triệu chứng Phế Âm hư: Ho khan, họng khô, khát nước, sốt nhẹ về chiều. Điều trị: Dưỡng âm bằng lê hấp đường phèn, yến sào sẽ giúp bổ phế âm.",
+                        category: "benh-hoc"
+                    },
+                    "tỳ vị hư hàn": {
+                        content: "Triệu chứng Tỳ Vị hư hàn: Ăn xong đầy bụng, phân lỏng, sợ lạnh. Điều trị: Dùng gừng nướng, ngải cứu, tránh đồ sống lạnh sẽ cải thiện tình trạng.",
+                        category: "benh-hoc"
+                    },
+                    "can khí phạm vị": {
+                        content: "Triệu chứng Can khí phạm Vị: Ợ chua, nóng rát thượng vị, hay cáu gắt. Điều trị: Thư giãn tinh thần, dùng trà hoa cúc, bột sắn dây sẽ giúp giảm triệu chứng.",
+                        category: "benh-hoc"
+                    },
+                    "thận hư": {
+                        content: "Triệu chứng Thận hư: Đau lưng, mỏi gối, ù tai, tiểu đêm. Điều trị: Bài tập dưỡng sinh vùng thắt lưng, ngâm chân nước ấm sẽ hỗ trợ bổ thận.",
+                        category: "benh-hoc"
+                    },
+                    "huyết ứ": {
+                        content: "Triệu chứng Huyết ứ: Kinh nguyệt ít, màu sẫm, có cục máu đông, đau bụng kinh dữ dội. Điều trị: Ngải cứu sao với muối chườm bụng sẽ giúp giảm đau và hoạt huyết.",
+                        category: "benh-hoc"
+                    }
+                },
+                "dưỡng sinh": {
+                    "phương pháp": {
+                        content: "Dưỡng sinh gồm: Ăn uống điều độ, ngủ nghỉ đúng giờ, tập khí công, xoa bóp, giữ tinh thần lạc quan. Đây là nền tảng của sức khỏe lâu dài.",
+                        category: "duong-sinh"
+                    },
+                    "khí công": {
+                        content: "Khí công: Bài 'Bát đoạn cẩm' gồm 8 động tác, tập vào sáng sớm giúp lưu thông khí huyết, tăng cường sức khỏe toàn diện.",
+                        category: "duong-sinh"
+                    },
+                    "thực dưỡng": {
+                        content: "Thực dưỡng: Ăn theo mùa, cân bằng âm dương, ưu tiên ngũ cốc, rau củ tươi. Thức ăn cũng là thuốc khi dùng đúng cách.",
+                        category: "duong-sinh"
+                    },
+                    "thiền định": {
+                        content: "Thiền định: Ngồi thiền 15-30 phút mỗi ngày giúp tĩnh tâm, giảm căng thẳng, cân bằng cảm xúc.",
+                        category: "duong-sinh"
+                    },
+                    "xoa bóp": {
+                        content: "Xoa bóp: Tự xoa bóp toàn thân 15 phút mỗi ngày giúp lưu thông khí huyết, thư giãn gân cốt, phòng ngừa bệnh tật.",
+                        category: "duong-sinh"
+                    },
+                    "dưỡng tâm": {
+                        content: "Dưỡng tâm: Giữ tinh thần lạc quan, tránh tức giận, lo âu quá mức - đây là nguồn gốc của bách bệnh theo quan điểm Đông y.",
+                        category: "duong-sinh"
+                    },
+                    "ngủ nghỉ": {
+                        content: "Ngủ nghỉ: Ngủ trước 23h, dậy sớm lúc 5-6h, ngủ trưa 15-30 phút để dưỡng sinh tốt nhất, phù hợp với nhịp sinh học tự nhiên.",
+                        category: "duong-sinh"
+                    },
+                    "vận động": {
+                        content: "Vận động: Đi bộ, thái cực quyền, khí công nhẹ nhàng mỗi ngày 30 phút giúp khí huyết lưu thông, tăng cường sức đề kháng.",
+                        category: "duong-sinh"
+                    },
+                    "tắm nắng": {
+                        content: "Tắm nắng: Tắm nắng sáng sớm 15-20 phút giúp bổ sung vitamin D, tăng cường dương khí, cải thiện tâm trạng.",
+                        category: "duong-sinh"
+                    },
+                    "hít thở": {
+                        content: "Hít thở: Thở bụng sâu 5-10 phút mỗi ngày giúp điều hòa khí, tăng cường chức năng phổi, giảm căng thẳng hiệu quả.",
+                        category: "duong-sinh"
+                    }
+                },
+                "châm cứu": {
+                    "đau vai gáy": {
+                        content: "Châm các huyệt: Phong Trì, Kiên Tỉnh, Thiên T宗, Hợp Cốc. Kết hợp cứu nếu đau do hàn sẽ cho hiệu quả tốt hơn.",
+                        category: "cham-cuu"
+                    },
+                    "liệt mặt": {
+                        content: "Châm các huyệt: Địa Thương, Nghinh Hương, Giáp Xa, Hợp Cốc, Phong Trì. Kết hợp điện châm sẽ tăng hiệu quả điều trị.",
+                        category: "cham-cuu"
+                    },
+                    "đau thần kinh tọa": {
+                        content: "Châm các huyệt: Hoàn Khiêu, Thừa Phù, Uỷ Trung, Thận Du, Đại Trường Du. Giúp giảm đau và phục hồi chức năng.",
+                        category: "cham-cuu"
+                    },
+                    "viêm quanh khớp vai": {
+                        content: "Châm các huyệt: Kiên Ngung, Kiên Tỉnh, Nhu Du, Thiên T宗. Kết hợp thủy châm sẽ cho kết quả tốt hơn.",
+                        category: "cham-cuu"
+                    },
+                    "đau dây thần kinh liên sườn": {
+                        content: "Châm các huyệt: Chiên Trung, Kỳ Môn, Chương Môn, Nội Quan. Giúp giảm đau hiệu quả.",
+                        category: "cham-cuu"
+                    },
+                    "di chứng tai biến": {
+                        content: "Châm các huyệt: Bách Hội, Phong Trì, Giải Khê, Hợp Cốc, Túc Tam Lý. Kết hợp điện châm sẽ hỗ trợ phục hồi chức năng.",
+                        category: "cham-cuu"
+                    },
+                    "đau dạ dày": {
+                        content: "Châm các huyệt: Trung Quản, Túc Tam Lý, Nội Quan, Công Tôn. Có thể cứu nếu đau do hàn sẽ giảm đau nhanh chóng.",
+                        category: "cham-cuu"
+                    },
+                    "hen suyễn": {
+                        content: "Châm các huyệt: Định Suyễn, Phế Du, Cao Hoang, Thận Du. Kết hợp cứu vào mùa đông sẽ phòng ngừa tái phát.",
+                        category: "cham-cuu"
+                    },
+                    "viêm mũi dị ứng": {
+                        content: "Châm các huyệt: Nghinh Hương, Ấn Đường, Hợp Cốc, Phong Trì. Kết hợp cứu ngải sẽ cải thiện triệu chứng.",
+                        category: "cham-cuu"
+                    },
+                    "bí tiểu": {
+                        content: "Châm các huyệt: Quan Nguyên, Trung Cực, Tam Âm Giao, Âm Lăng Tuyền. Kết hợp điện châm nhẹ sẽ hỗ trợ tiểu tiện.",
+                        category: "cham-cuu"
+                    }
+                },
+                "phương pháp": {
+                    "giác hơi": {
+                        content: "Giác hơi hiệu quả với đau do Hàn và Thấp: đau lưng do lạnh, cảm lạnh, đau mỏi vai gáy. Không giác hơi khi sốt cao, co giật. Đây là phương pháp an toàn khi thực hiện đúng.",
+                        category: "dieu-tri"
+                    },
+                    "bấm huyệt": {
+                        content: "Bấm huyệt Hợp Cốc (kẽ ngón cái-trỏ) trị đau đầu. Không bấm cho phụ nữ có thai. Đây là phương pháp tự chăm sóc đơn giản mà hiệu quả.",
+                        category: "dieu-tri"
+                    },
+                    "châm cứu": {
+                        content: "Châm cứu trị liệt mặt: các huyệt Địa thương, Giáp xa, Nghinh hương, Hợp cốc. Cần thầy thuốc chuyên khoa thực hiện để đảm bảo an toàn và hiệu quả.",
+                        category: "dieu-tri"
+                    }
+                },
+                "bệnh thường gặp": {
+                    "cảm mạo": {
+                        content: "Triệu chứng: Sốt, sợ gió, đau đầu, ngạt mũi. Điều trị: Giải biểu (dùng bài thuốc có kinh giới, tía tô, bạc hà). Nghỉ ngơi và giữ ấm sẽ giúp nhanh khỏi.",
+                        category: "benh-hoc"
+                    },
+                    "viêm họng": {
+                        content: "Triệu chứng: Đau họng, khó nuốt, ho khan. Điều trị: Thanh nhiệt, lợi yết (dùng bài thuốc có cát cánh, cam thảo, huyền sâm). Súc họng nước muối cũng rất hiệu quả.",
+                        category: "benh-hoc"
+                    },
+                    "viêm phế quản": {
+                        content: "Triệu chứng: Ho, khạc đờm, khó thở. Điều trị: Tuyên phế, hóa đờm (dùng bài thuốc có tang bạch bì, hạnh nhân, qua lâu). Giữ ấm vùng ngực sẽ hỗ trợ điều trị.",
+                        category: "benh-hoc"
+                    },
+                    "viêm dạ dày": {
+                        content: "Triệu chứng: Đau thượng vị, ợ hơi, ợ chua. Điều trị: Sơ can, kiện tỳ (dùng bài thuốc có sài hồ, bạch thược, chỉ xác). Ăn uống điều độ rất quan trọng.",
+                        category: "benh-hoc"
+                    },
+                    "cao huyết áp": {
+                        content: "Triệu chứng: Đau đầu, hoa mắt, chóng mặt. Điều trị: Bình can, tiềm dương (dùng bài thuốc có thiên ma, câu đằng, thạch quyết minh). Giảm căng thẳng và ăn nhạt sẽ hỗ trợ điều trị.",
+                        category: "benh-hoc"
+                    },
+                    "mất ngủ": {
+                        content: "Triệu chứng: Khó ngủ, ngủ không sâu, hay mơ. Điều trị: Dưỡng tâm, an thần (dùng bài thuốc có toan táo nhân, viễn chí, phục thần). Tạo thói quen ngủ đúng giờ rất quan trọng.",
+                        category: "benh-hoc"
+                    },
+                    "tiểu đường": {
+                        content: "Triệu chứng: Khát nhiều, uống nhiều, tiểu nhiều, gầy sút. Điều trị: Tư âm, thanh nhiệt (dùng bài thuốc có thiên hoa phấn, mạch môn, sinh địa). Kiêng đồ ngọt và vận động hợp lý.",
+                        category: "benh-hoc"
+                    },
+                    "viêm khớp": {
+                        content: "Triệu chứng: Đau khớp, sưng nóng, hạn chế vận động. Điều trị: Khu phong, trừ thấp, thông kinh lạc (dùng bài thuốc có độc hoạt, tang ký sinh, phòng phong). Giữ ấm khớp rất quan trọng.",
+                        category: "benh-hoc"
+                    },
+                    "rối loạn kinh nguyệt": {
+                        content: "Triệu chứng: Kinh nguyệt không đều, đau bụng kinh. Điều trị: Điều huyết, thông kinh (dùng bài thuốc có đương quy, xuyên khung, ích mẫu). Giữ tinh thần thoải mái sẽ cải thiện tình trạng.",
+                        category: "benh-hoc"
+                    },
+                    "táo bón": {
+                        content: "Triệu chứng: Đại tiện khó, phân khô cứng. Điều trị: Nhuận tràng, thông tiện (dùng bài thuốc có đại hoàng, hậu phác, chỉ thực). Uống đủ nước và ăn nhiều chất xơ sẽ hỗ trợ điều trị.",
+                        category: "benh-hoc"
+                    }
+                },
+                "triết lý": {
+                    "hư bổ thực tả": {
+                        content: "Nguyên tắc 'Hư thì bổ, Thực thì tả': Người bệnh chính khí suy thì bổ, tà khí thịnh thì công tà. Đây là nguyên tắc cơ bản trong điều trị Đông y.",
+                        category: "triet-ly"
+                    },
+                    "âm dương": {
+                        content: "Âm Dương là hai mặt đối lập nhưng thống nhất, là quy luật cơ bản của vũ trụ. Trong cơ thể, Âm Dương phải cân bằng thì mới khỏe mạnh. Mất cân bằng Âm Dương là nguồn gốc của bệnh tật.",
+                        category: "triet-ly"
+                    },
+                    "ngũ hành": {
+                        content: "Ngũ hành gồm: Kim, Mộc, Thủy, Hỏa, Thổ. Các hành tương sinh (thúc đẩy) và tương khắc (kiềm chế) lẫn nhau. Hiểu về Ngũ hành giúp chẩn đoán và điều trị bệnh hiệu quả hơn.",
+                        category: "triet-ly"
+                    },
+                    "tạng phủ": {
+                        content: "Ngũ tạng: Tâm, Can, Tỳ, Phế, Thận. Lục phủ: Đởm, Vị, Tiểu trường, Đại trường, Bàng quang, Tam tiêu. Mỗi tạng phủ có chức năng riêng và liên hệ mật thiết với nhau.",
+                        category: "triet-ly"
+                    },
+                    "kinh lạc": {
+                        content: "Kinh lạc là hệ thống đường đi của khí huyết trong cơ thể, gồm 12 kinh chính và 8 mạch kỳ kinh. Hiểu về kinh lạc giúp chẩn đoán và điều trị bệnh chính xác hơn.",
+                        category: "triet-ly"
+                    },
+                    "khí huyết": {
+                        content: "Khí là năng lượng vận động, Huyết là vật chất dinh dưỡng. Khí hành thì huyết hành, khí trệ thì huyết ứ. Dưỡng khí huyết là nền tảng của sức khỏe.",
+                        category: "triet-ly"
+                    },
+                    "tinh thần": {
+                        content: "Tinh (tinh chất), Khí (năng lượng), Thần (tinh thần) là ba báu vật của cơ thể, có mối quan hệ mật thiết với nhau. Dưỡng tốt Tam bảo sẽ có sức khỏe toàn diện.",
+                        category: "triet-ly"
+                    },
+                    "bát cương": {
+                        content: "Bát cương gồm: Biểu - Lý, Hàn - Nhiệt, Hư - Thực, Âm - Dương. Là cơ sở để chẩn đoán và điều trị trong Đông y, giúp xác định đúng tính chất bệnh.",
+                        category: "triet-ly"
+                    },
+                    "lục dâm": {
+                        content: "Lục dâm (sáu loại khí bệnh lý): Phong, Hàn, Thử, Thấp, Táo, Hỏa. Khi xâm nhập cơ thể gây ra bệnh tật. Hiểu về Lục dâm giúp phòng và trị bệnh hiệu quả.",
+                        category: "triet-ly"
+                    },
+                    "thất tình": {
+                        content: "Thất tình (bảy loại tình chí): Hỷ, Nộ, Ưu, Tư, Bi, Khủng, Kinh. Rối loạn tình chí có thể gây bệnh cho tạng phủ. Điều hòa tình chí là cách phòng bệnh quan trọng.",
+                        category: "triet-ly"
+                    },
+                    "tứ chẩn": {
+                        content: "Tứ chẩn là bốn phương pháp chẩn đoán: Vọng (quan sát), Văn (nghe, ngửi), Vấn (hỏi), Thiết (sờ nắn, bắt mạch). Kết hợp cả bốn phương pháp giúp chẩn đoán chính xác.",
+                        category: "triet-ly"
+                    }
+                },
+                "chẩn đoán_phối_hợp": {
+                    "mạch phù": {
+                        content: "Mạch Phù kết hợp với:<br>" +
+                                "- Sợ lạnh, sốt, không mồ hôi: Cảm mạo phong hàn<br>" +
+                                "- Sợ gió, có mồ hôi: Cảm mạo phong nhiệt<br>" +
+                                "- Đau đầu, cứng gáy: Phong tà thượng công<br>" +
+                                "<div class='expert-info'><h4>Điều trị:</h4>Giải biểu, khu tà ra ngoài. Tùy theo hàn hay nhiệt mà dùng phương pháp thích hợp. Với phong hàn dùng bài thuốc tính ấm, với phong nhiệt dùng bài thuốc tính mát.</div>",
+                        category: "chan-doan"
+                    },
+                    "mạch trầm": {
+                        content: "Mạch Trầm kết hợp với:<br>" +
+                                 "- Sợ lạnh, tay chân lạnh: Hàn chứng ở lý<br>" +
+                                 "- Đau bụng, tiêu chảy: Tỳ Vị hư hàn<br>" +
+                                 "- Đau lưng, tiểu đêm: Thận dương hư<br>" +
+                                 "<div class='expert-info'><h4>Điều trị:</h4>Ôn trung, tán hàn, bổ dương. Dùng các vị thuốc tính ấm như can khương, nhục quế. Kết hợp chườm nóng và ăn uống đồ ấm nóng.</div>",
+                        category: "chan-doan"
+                    },
+                    "mạch trì": {
+                        content: "Mạch Trì kết hợp với:<br>" +
+                                "- Sợ lạnh, tay chân lạnh: Hàn chứng<br>" +
+                                "- Đau bụng, thích chườm nóng: Hàn thống<br>" +
+                                "- Tiểu trong, dài: Thận dương hư<br>" +
+                                "<div class='expert-info'><h4>Điều trị:</h4>Ôn dương, tán hàn. Có thể dùng châm cứu hoặc ngải cứu các huyệt Quan Nguyên, Khí Hải. Ăn uống đồ ấm và tránh đồ lạnh.</div>",
+                        category: "chan-doan"
+                    },
+                    "mạch sác": {
+                        content: "Mạch Sác kết hợp với:<br>" +
+                                "- Sốt cao, khát nước: Nhiệt thịnh<br>" +
+                                "- Mặt đỏ, mắt đỏ: Can hỏa vượng<br>" +
+                                "- Họng khô, miệng khát: Phế Vị nhiệt<br>" +
+                                "<div class='expert-info'><h4>Điều trị:</h4>Thanh nhiệt, tả hỏa. Dùng các vị thuốc tính hàn như sinh địa, huyền sâm. Uống nhiều nước và ăn đồ mát.</div>",
+                        category: "chan-doan"
+                    }
+                }
+            };
+
+            // CÁC TÌNH HUỐNG CẤP CỨU VÀ CẢNH BÁO
+            const emergencyResponses = {
+                "đau ngực": "⚠️ CẢNH BÁO: Đau ngực dữ dội, vã mồ hôi, khó thở có thể là Nhồi máu cơ tim. Hãy gọi ngay 115 hoặc đến bệnh viện gần nhất bạn nhé!",
+                "khó thở": "⚠️ CẢNH BÁO: Khó thở đột ngột cần được cấp cứu ngay. Bạn hãy gọi 115 hoặc đến bệnh viện ngay lập tức!",
+                "tê liệt": "⚠️ CẢNH BÁO: Tê liệt đột ngột có thể là Tai biến mạch máu não. Thời gian vàng rất quan trọng, hãy đến bệnh viện ngay bạn nhé!",
+                "chảy máu": "⚠️ CẢNH BÁO: Chảy máu không cầm được cần cấp cứu. Hãy áp dụng biện pháp cầm máu tạm thời và đến bệnh viện ngay.",
+                "bất tỉnh": "⚠️ CẢNH BÁO: Bất tỉnh đột ngột là tình trạng cấp cứu. Hãy gọi 115 và theo dõi ý thức, hô hấp của người bệnh."
+            };
+
+            // Mẫu câu trả lời đa dạng với ngôn ngữ mềm mại hơn
+            const responseVariations = {
+                greeting: [
+                    "Xin chào bạn! Tôi là Bác sĩ AI, chuyên gia tư vấn về Y học cổ truyền. Tôi có thể giúp gì cho bạn hôm nay?",
+                    "Chào bạn! Thật vui được gặp bạn. Tôi là trợ lý AI về Y học cổ truyền. Hãy chia sẻ với tôi về vấn đề sức khỏe của bạn nhé.",
+                    "Xin chào! Rất vui được hỗ trợ bạn. Tôi có kiến thức về y học cổ truyền và sẵn sàng lắng nghe những thắc mắc của bạn."
+                ],
+                thanks: [
+                    "Không có gì đâu bạn! Nếu bạn có thêm câu hỏi nào về y học cổ truyền, tôi luôn sẵn sàng hỗ trợ bạn.",
+                    "Rất hân hạnh được giúp đỡ bạn. Đừng ngần ngại hỏi thêm nếu bạn cần tư vấn thêm nhé.",
+                    "Tôi rất vui khi có thể hỗ trợ bạn. Chúc bạn luôn khỏe mạnh và hạnh phúc!"
+                ],
+                unknown: [
+                    "Cảm ơn câu hỏi của bạn. Tôi có thể tư vấn về các chủ đề: huyệt vị, thảo dược, bài thuốc, bắt mạch, dưỡng sinh, châm cứu, chẩn đoán và triết lý y học cổ truyền. Bạn có thể hỏi cụ thể hơn không?",
+                    "Tôi hiểu câu hỏi của bạn. Hiện tại tôi chuyên về các lĩnh vực y học cổ truyền. Bạn có thể hỏi cụ thể hơn về một trong những chủ đề này không?",
+                    "Câu hỏi của bạn khá thú vị. Tôi có thể tư vấn về nhiều khía cạnh của y học cổ truyền. Bạn quan tâm đến chủ đề nào cụ thể? Tôi sẽ cố gắng giải đáp tốt nhất có thể."
+                ]
+            };
+
+            // Thứ tự ưu tiên hiển thị các danh mục
+            const categoryPriority = [
+                "benh-hoc",      // Bệnh học
+                "dieu-tri",      // Phương pháp điều trị
+                "bai-thuoc",     // Bài thuốc
+                "huyet-dao",     // Huyệt vị
+                "duong-sinh",    // Dưỡng sinh
+                "duoc-lieu",     // Dược liệu
+                "cham-cuu",      // Châm cứu
+                "chan-doan",     // Chẩn đoán
+                "triet-ly"       // Triết lý
+            ];
+
+            // Hàm lấy câu trả lời ngẫu nhiên
+            function getRandomResponse(type) {
+                const responses = responseVariations[type];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            // Hàm thêm tin nhắn vào khung chat
+            function addMessage(message, isUser, sender = null) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+                
+                if (sender) {
+                    const messageHeader = document.createElement('div');
+                    messageHeader.classList.add('message-header');
+                    messageHeader.innerHTML = `<i class="fas ${isUser ? 'fa-user' : 'fa-robot'}"></i> ${sender}`;
+                    messageDiv.appendChild(messageHeader);
+                }
+                
+                const messageText = document.createElement('div');
+                messageText.innerHTML = message;
+                messageDiv.appendChild(messageText);
+                
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // Hàm hiển thị chỉ báo đang gõ
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.classList.add('typing-indicator');
+                typingDiv.innerHTML = '<span></span><span></span><span></span>';
+                typingDiv.id = 'typingIndicator';
+                chatContainer.appendChild(typingDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // Hàm xóa chỉ báo đang gõ
+            function removeTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            // Hàm kiểm tra tình huống cấp cứu
+            function checkEmergency(question) {
+                const lowerQuestion = question.toLowerCase();
+                for (const emergency in emergencyResponses) {
+                    if (lowerQuestion.includes(emergency)) {
+                        return emergencyResponses[emergency];
+                    }
+                }
+                return null;
+            }
+
+            // Hàm tìm tất cả câu trả lời phù hợp - ĐÃ CẢI THIỆN
+            function findAllAnswers(question) {
+                const lowerQuestion = question.toLowerCase();
+                
+                // Kiểm tra tình huống cấp cứu trước
+                const emergencyResponse = checkEmergency(lowerQuestion);
+                if (emergencyResponse) {
+                    return [emergencyResponse];
+                }
+                
+                const allAnswers = [];
+                
+                // Tìm kiếm theo từ khóa trong knowledgeBase
+                for (const category in knowledgeBase) {
+                    for (const keyword in knowledgeBase[category]) {
+                        if (lowerQuestion.includes(keyword)) {
+                            const answer = knowledgeBase[category][keyword];
+                            allAnswers.push({
+                                content: answer.content,
+                                category: answer.category,
+                                keyword: keyword
+                            });
+                        }
+                    }
+                }
+                
+                // Trả lời cụ thể cho một số câu hỏi thường gặp
+                if (lowerQuestion.includes("chào") || lowerQuestion.includes("hello") || lowerQuestion.includes("hi")) {
+                    return [getRandomResponse('greeting')];
+                } else if (lowerQuestion.includes("cám ơn") || lowerQuestion.includes("thank") || lowerQuestion.includes("cảm ơn")) {
+                    return [getRandomResponse('thanks')];
+                } else if (lowerQuestion.includes("giới thiệu") || lowerQuestion.includes("là gì")) {
+                    return ["Y học cổ truyền là hệ thống y học dựa trên triết lý Âm Dương - Ngũ Hành, sử dụng các phương pháp tự nhiên như thảo dược, châm cứu, bấm huyệt, dưỡng sinh để phòng và chữa bệnh. Đây là nền y học có lịch sử lâu đời và rất gần gũi với thiên nhiên."];
+                } else if (lowerQuestion.includes("tư vấn") || lowerQuestion.includes("hỏi ý kiến")) {
+                    return ["Tôi có thể tư vấn về nhiều vấn đề sức khỏe theo Y học cổ truyền. Tuy nhiên, đây chỉ là thông tin tham khảo. Để chẩn đoán chính xác và điều trị hiệu quả, bạn nên đến gặp thầy thuốc Đông y trực tiếp để được thăm khám toàn diện nhé."];
+                } else if (lowerQuestion.includes("bà bầu") || lowerQuestion.includes("mang thai")) {
+                    return ["⚠️ LƯU Ý: Phụ nữ mang thai không nên tự ý dùng thuốc đông y. Một số dược liệu có thể ảnh hưởng đến thai nhi. Bạn cần tham khảo ý kiến bác sĩ chuyên khoa trước khi sử dụng bất kỳ loại thuốc nào nhé."];
+                } else if (lowerQuestion.includes("ung thư") || lowerQuestion.includes("giai đoạn cuối")) {
+                    return ["Y học cổ truyền có vai trò hỗ trợ nâng cao thể trạng cho bệnh nhân ung thư, nhưng không thay thế phác đồ điều trị chính thống. Việc dùng thuốc nam bừa bãi có thể gây nguy hiểm. Bạn nên kết hợp cả Đông và Tây y dưới sự hướng dẫn của bác sĩ."];
+                }
+                
+                // Nếu không tìm thấy câu trả lời nào
+                if (allAnswers.length === 0) {
+                    return [getRandomResponse('unknown')];
+                }
+                
+                return allAnswers;
+            }
+
+            // Hàm tạo câu trả lời kết hợp từ nhiều nguồn - ĐÃ CẢI THIỆN THỨ TỰ HIỂN THỊ
+            function createCombinedResponse(answers) {
+                // Nếu chỉ có một câu trả lời, trả về trực tiếp
+                if (answers.length === 1 && typeof answers[0] === 'string') {
+                    return answers[0];
+                }
+                
+                // Nếu có nhiều câu trả lời, kết hợp chúng theo thứ tự ưu tiên
+                let combinedResponse = "";
+                const categories = {};
+                
+                // Nhóm câu trả lời theo danh mục
+                answers.forEach(answer => {
+                    if (typeof answer === 'string') {
+                        combinedResponse += answer + "<br><br>";
+                    } else {
+                        if (!categories[answer.category]) {
+                            categories[answer.category] = [];
+                        }
+                        categories[answer.category].push(answer);
+                    }
+                });
+                
+                // Sắp xếp danh mục theo thứ tự ưu tiên
+                const sortedCategories = {};
+                categoryPriority.forEach(category => {
+                    if (categories[category]) {
+                        sortedCategories[category] = categories[category];
+                    }
+                });
+                
+                // Thêm các danh mục còn lại không có trong danh sách ưu tiên
+                for (const category in categories) {
+                    if (!sortedCategories[category]) {
+                        sortedCategories[category] = categories[category];
+                    }
+                }
+                
+                // Thêm tiêu đề cho từng danh mục theo thứ tự ưu tiên
+                for (const category in sortedCategories) {
+                    const categoryAnswers = sortedCategories[category];
+                    
+                    // Thêm tiêu đề danh mục
+                    let categoryTitle = "";
+                    let categoryClass = "";
+                    
+                    switch(category) {
+                        case "benh-hoc":
+                            categoryTitle = "<h5><i class='fas fa-stethoscope'></i> Bệnh học</h5>";
+                            categoryClass = "category-benh-hoc";
+                            break;
+                        case "dieu-tri":
+                            categoryTitle = "<h5><i class='fas fa-pills'></i> Phương pháp điều trị</h5>";
+                            categoryClass = "category-dieu-tri";
+                            break;
+                        case "huyet-dao":
+                            categoryTitle = "<h5><i class='fas fa-crosshairs'></i> Huyệt vị</h5>";
+                            categoryClass = "category-huyet-dao";
+                            break;
+                        case "duong-sinh":
+                            categoryTitle = "<h5><i class='fas fa-spa'></i> Dưỡng sinh</h5>";
+                            categoryClass = "category-duong-sinh";
+                            break;
+                        case "duoc-lieu":
+                            categoryTitle = "<h5><i class='fas fa-leaf'></i> Dược liệu</h5>";
+                            categoryClass = "category-duoc-lieu";
+                            break;
+                        case "bai-thuoc":
+                            categoryTitle = "<h5><i class='fas fa-book-medical'></i> Bài thuốc</h5>";
+                            categoryClass = "category-bai-thuoc";
+                            break;
+                        case "cham-cuu":
+                            categoryTitle = "<h5><i class='fas fa-bolt'></i> Châm cứu</h5>";
+                            categoryClass = "category-cham-cuu";
+                            break;
+                        case "chan-doan":
+                            categoryTitle = "<h5><i class='fas fa-diagnoses'></i> Chẩn đoán</h5>";
+                            categoryClass = "category-chan-doan";
+                            break;
+                        case "triet-ly":
+                            categoryTitle = "<h5><i class='fas fa-yin-yang'></i> Triết lý</h5>";
+                            categoryClass = "category-triet-ly";
+                            break;
+                        default:
+                            categoryTitle = "<h5><i class='fas fa-info-circle'></i> Thông tin</h5>";
+                            categoryClass = "category-info";
+                    }
+                    
+                    combinedResponse += `<div class="info-category ${categoryClass}">${categoryTitle}`;
+                    
+                    // Thêm nội dung cho từng câu trả lời trong danh mục
+                    categoryAnswers.forEach(answer => {
+                        combinedResponse += `<div class="info-content">${answer.content}</div>`;
+                    });
+                    
+                    combinedResponse += "</div>";
+                }
+                
+                // Thêm lời khuyên cuối cùng
+                combinedResponse += `<div class="expert-info"><h4><i class="fas fa-lightbulb"></i> Lời khuyên</h4>Thông tin trên chỉ mang tính chất tham khảo. Để có chẩn đoán chính xác và điều trị hiệu quả, bạn nên đến gặp thầy thuốc Đông y trực tiếp để được thăm khám toàn diện nhé.</div>`;
+                
+                return combinedResponse;
+            }
+
+            // Hàm xử lý tin nhắn người dùng
+            function handleUserMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+                
+                // Thêm tin nhắn người dùng
+                addMessage(message, true, "Bạn");
+                userInput.value = '';
+                
+                // Hiển thị chỉ báo đang gõ
+                showTypingIndicator();
+                
+                // Giả lập thời gian xử lý của AI
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    
+                    // Tìm tất cả câu trả lời phù hợp
+                    const answers = findAllAnswers(message);
+                    
+                    // Tạo câu trả lời kết hợp
+                    const response = createCombinedResponse(answers);
+                    
+                    // Thêm phản hồi của AI
+                    addMessage(response, false, "Bác sĩ AI");
+                }, 1500);
+            }
+
+            // Sự kiện khi nhấn nút gửi
+            sendButton.addEventListener('click', handleUserMessage);
+            
+            // Sự kiện khi nhấn Enter trong ô nhập liệu
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleUserMessage();
+                }
+            });
+            
+            // Sự kiện cho các nút hành động nhanh
+            quickActions.forEach(action => {
+                action.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    userInput.value = question;
+                    handleUserMessage();
+                });
+            });
+            
+            // Khởi tạo hiệu ứng tuyết rơi
+            createSnow();
+        });
+    </script>
+</body>
+</html>
